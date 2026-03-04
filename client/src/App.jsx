@@ -1,3 +1,5 @@
+import { Navigate } from 'react-router-dom';
+
 export default function App() {
-  return null;
+  return <Navigate to="/dashboard" replace />;
 }
