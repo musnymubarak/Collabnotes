@@ -17,7 +17,7 @@ export default function NotePage() {
     const [showCollabs, setShowCollabs] = useState(false);
 
     useEffect(() => {
-        api.get(`/api/notes/${id}`).then(({ data }) => {
+        api.get(`/notes/${id}`).then(({ data }) => {
             setNote(data);
             setTitle(data.title);
             setContent(data.content);
@@ -27,15 +27,16 @@ export default function NotePage() {
         });
     }, [id]);
 
-    const isOwner = note?.owner._id === user?._id;
-    const isEditor = isOwner || note?.collaborators?.find(
-        (c) => c.user._id === user?._id && c.role === 'editor'
+    // Use explicit toString() to safely compare MongoDB ObjectIds
+    const isOwner = note?.owner._id?.toString() === user?._id?.toString();
+    const isEditor = isOwner || note?.collaborators?.some(
+        (c) => c.user._id?.toString() === user?._id?.toString() && c.role === 'editor'
     );
 
     const handleSave = useCallback(async () => {
         setSaving(true);
         try {
-            await api.put(`/api/notes/${id}`, { title, content });
+            await api.put(`/notes/${id}`, { title, content });
             toast.success('Saved');
         } catch {
             toast.error('Save failed');
@@ -78,6 +79,7 @@ export default function NotePage() {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     disabled={!isEditor}
+                    placeholder="Note title"
                     className="w-full text-2xl font-bold text-gray-800 border-none outline-none bg-transparent mb-4 disabled:cursor-default"
                 />
                 <RichEditor content={content} onChange={setContent} editable={!!isEditor} />
