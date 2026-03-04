@@ -11,5 +11,6 @@ app.use(cookieParser());
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/notes', require('./routes/notes.routes'));
+app.use(require('./middleware/error.middleware'));
 
 module.exports = app;
