@@ -10,6 +10,9 @@ const requireAccess = (requiredRole = 'viewer') => async (req, res, next) => {
   if (!isOwner && !collab)
     return res.status(403).json({ message: 'Access denied' });
 
+  if (requiredRole === 'owner' && !isOwner)
+    return res.status(403).json({ message: 'Owner access required' });
+
   if (requiredRole === 'editor' && !isOwner && collab?.role !== 'editor')
     return res.status(403).json({ message: 'Editor access required' });
 
