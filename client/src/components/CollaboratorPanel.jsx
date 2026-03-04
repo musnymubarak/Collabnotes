@@ -11,7 +11,7 @@ export default function CollaboratorPanel({ note, onUpdate }) {
         if (!email) return;
         setLoading(true);
         try {
-            const { data } = await api.post(`/notes/${note._id}/collaborators`, { email, role });
+            const { data } = await api.post(`/api/notes/${note._id}/collaborators`, { email, role });
             onUpdate(data);
             setEmail('');
             toast.success('Collaborator added');
@@ -24,7 +24,7 @@ export default function CollaboratorPanel({ note, onUpdate }) {
 
     const handleRemove = async (userId) => {
         try {
-            const { data } = await api.delete(`/notes/${note._id}/collaborators/${userId}`);
+            const { data } = await api.delete(`/api/notes/${note._id}/collaborators/${userId}`);
             onUpdate(data);
             toast.success('Removed');
         } catch {
@@ -34,7 +34,7 @@ export default function CollaboratorPanel({ note, onUpdate }) {
 
     const handleRoleChange = async (userId, newRole) => {
         try {
-            const { data } = await api.put(`/notes/${note._id}/collaborators/${userId}`, { role: newRole });
+            const { data } = await api.put(`/api/notes/${note._id}/collaborators/${userId}`, { role: newRole });
             onUpdate(data);
         } catch {
             toast.error('Failed to update role');
