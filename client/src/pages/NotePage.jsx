@@ -17,7 +17,7 @@ export default function NotePage() {
     const [showCollabs, setShowCollabs] = useState(false);
 
     useEffect(() => {
-        api.get(`/notes/${id}`).then(({ data }) => {
+        api.get(`/api/notes/${id}`).then(({ data }) => {
             setNote(data);
             setTitle(data.title);
             setContent(data.content);
@@ -36,7 +36,7 @@ export default function NotePage() {
     const handleSave = useCallback(async () => {
         setSaving(true);
         try {
-            await api.put(`/notes/${id}`, { title, content });
+            await api.put(`/api/notes/${id}`, { title, content });
             toast.success('Saved');
         } catch {
             toast.error('Save failed');
