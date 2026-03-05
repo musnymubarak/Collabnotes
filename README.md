@@ -2,6 +2,12 @@
 
 A collaborative note-taking web app built with the MERN stack. Features JWT authentication, rich text editing, full-text search, and real-time collaborator management with role-based access control.
 
+
+## Demo
+
+Live: https://collabnotes.duckdns.org
+
+
 ---
 
 ## Features
@@ -94,7 +100,7 @@ The client runs on `http://localhost:5173` and the server on `http://localhost:5
 
 | Variable | Description | Example |
 |---|---|---|
-| `VITE_API_URL` | Base URL for all API requests | `http://localhost:5000/api` |
+| `VITE_API_URL` | Base URL for all API requests | `http://localhost:5000` |
 
 ---
 
