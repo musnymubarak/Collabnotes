@@ -37,14 +37,17 @@ exports.login = async (req, res) => {
   res.json({ user: user.toPublic(), accessToken });
 };
 
-exports.refresh = (req, res) => {
+exports.refresh = async (req, res) => {
   const token = req.cookies?.refreshToken;
   if (!token) return res.status(401).json({ message: 'No refresh token' });
 
   try {
     const payload = verifyRefresh(token);
-    const accessToken = signAccess({ id: payload.id });
-    res.json({ accessToken });
+    const user = await User.findById(payload.id);
+    if (!user) return res.status(401).json({ message: 'User not found' });
+
+    const accessToken = signAccess({ id: user._id });
+    res.json({ user: user.toPublic(), accessToken });
   } catch {
     res.status(401).json({ message: 'Invalid or expired refresh token' });
   }
