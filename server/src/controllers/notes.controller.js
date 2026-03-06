@@ -72,6 +72,8 @@ exports.addCollaborator = async (req, res) => {
 
   req.note.collaborators.push({ user: targetUser._id, role });
   await req.note.save();
+  await req.note.populate('owner', 'username email');
+  await req.note.populate('collaborators.user', 'username email');
   res.status(201).json(req.note);
 };
 
@@ -86,6 +88,8 @@ exports.updateCollaborator = async (req, res) => {
 
   collab.role = req.body.role;
   await req.note.save();
+  await req.note.populate('owner', 'username email');
+  await req.note.populate('collaborators.user', 'username email');
   res.json(req.note);
 };
 
@@ -97,5 +101,7 @@ exports.removeCollaborator = async (req, res) => {
     (c) => !c.user.equals(req.params.userId)
   );
   await req.note.save();
+  await req.note.populate('owner', 'username email');
+  await req.note.populate('collaborators.user', 'username email');
   res.json(req.note);
 };
